@@ -24,9 +24,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.gradiationproject.navigation.Screen
 import com.example.gradiationproject.util.OnBoardingPage
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
@@ -34,6 +38,35 @@ import com.google.accompanist.pager.PagerState
 fun WelcomeScreen(
     navController: NavHostController
 ) {
+    val pages = listOf(
+        OnBoardingPage.First,
+        OnBoardingPage.Second,
+        OnBoardingPage.Third,
+        OnBoardingPage.Fourth,
+        OnBoardingPage.Fifth
+    )
+    val pagerState = rememberPagerState()
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        HorizontalPager(
+            modifier = Modifier.weight(10f),
+            count = 5, state = pagerState
+        ) { position ->
+            PagerScreen(onBoardingPage = pages[position])
+        }
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .weight(1f)
+        )
+        FinishButton(modifier = Modifier, pagerState = pagerState) {
+            navController.popBackStack()
+            navController.navigate(Screen.Home.route)
+        }
+    }
+
+
 }
 
 @Composable
