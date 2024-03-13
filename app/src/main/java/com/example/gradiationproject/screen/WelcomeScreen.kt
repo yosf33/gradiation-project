@@ -23,9 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.gradiationproject.navigation.Screen
 import com.example.gradiationproject.util.OnBoardingPage
+import com.example.gradiationproject.viewmodel.WelcomeViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -36,7 +38,8 @@ import com.google.accompanist.pager.rememberPagerState
 @ExperimentalPagerApi
 @Composable
 fun WelcomeScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    welcomeViewModel: WelcomeViewModel= hiltViewModel()
 ) {
     val pages = listOf(
         OnBoardingPage.First,
@@ -61,6 +64,7 @@ fun WelcomeScreen(
                 .weight(1f)
         )
         FinishButton(modifier = Modifier, pagerState = pagerState) {
+            welcomeViewModel.saveOnBoardingState(completed = true)
             navController.popBackStack()
             navController.navigate(Screen.Home.route)
         }

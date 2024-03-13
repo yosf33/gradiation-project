@@ -13,11 +13,12 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @ExperimentalPagerApi
 @Composable
 fun SetupNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    startDestination:String
 ) {
    NavHost(
        navController = navController,
-       startDestination = Screen.Welcome.route,
+       startDestination = startDestination,
        builder = {
        composable(route=Screen.Welcome.route){
            WelcomeScreen(navController=navController)
