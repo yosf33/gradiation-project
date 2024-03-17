@@ -84,6 +84,9 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    //material extended
+    implementation("androidx.compose.material:material-icons-extended:1.6.3")
+
     implementation("androidx.compose.material3:material3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.gradiationproject.R
 import com.example.gradiationproject.navigation.Screen
 import com.example.gradiationproject.util.OnBoardingPage
 import com.example.gradiationproject.viewmodel.WelcomeViewModel
@@ -66,7 +69,7 @@ fun WelcomeScreen(
         FinishButton(modifier = Modifier, pagerState = pagerState) {
             welcomeViewModel.saveOnBoardingState(completed = true)
             navController.popBackStack()
-            navController.navigate(Screen.Home.route)
+            navController.navigate(Screen.SignUpScreen.route)
         }
     }
 
@@ -120,6 +123,8 @@ fun FinishButton(
     pagerState: PagerState,
     onClick: () -> Unit
 ) {
+    val mainColor = colorResource(id = R.color.main_purple)
+
     Row(
         modifier = modifier.padding(40.dp),
         verticalAlignment = Alignment.Top,
@@ -132,6 +137,7 @@ fun FinishButton(
             Button(
                 onClick = onClick,
                 colors = ButtonDefaults.buttonColors(
+                    containerColor = mainColor,
                     contentColor = Color.White
                 )
             ) {
@@ -143,29 +149,20 @@ fun FinishButton(
 
 }
 
+
+
+@OptIn(ExperimentalAnimationApi::class, ExperimentalPagerApi::class)
 @Composable
 @Preview(showBackground = true)
-fun FirstOnBoardingPreview() {
-    Column(modifier = Modifier.fillMaxSize()) {
-        PagerScreen(onBoardingPage = OnBoardingPage.First)
-
+fun FinishButtonPreview() {
+    val mainColor = colorResource(id = R.color.main_purple)
+    Button(
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = mainColor,
+            contentColor = Color.White
+        )
+    ) {
+        Text(text = "Finish")
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun SecondOnBoardingPreview() {
-    Column(modifier = Modifier.fillMaxSize()) {
-        PagerScreen(onBoardingPage = OnBoardingPage.Second)
-
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun ThirdOnBoardingPreview() {
-    Column(modifier = Modifier.fillMaxSize()) {
-        PagerScreen(onBoardingPage = OnBoardingPage.Third)
-
-    }
-}

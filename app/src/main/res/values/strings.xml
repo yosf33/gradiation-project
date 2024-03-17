@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Gradiation Project</string>
+    <string name="hello">Hey there!</string>
+    <string name="create_account">Create An Account</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+    <string name="terms_and_conditions">By continuing you accept our Privacy,Policy and Terms of use</string>
+    <string name="terms_and_conditions_header">Terms of use</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="forget_password">Forget your password</string>
 </resources>
