@@ -95,7 +95,7 @@ fun HeadingTextComponents(value: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField(labelValue: String, painterResource: Painter) {
+fun MyTextField(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit) {
 
     val textValue = remember {
         mutableStateOf("")
@@ -115,11 +115,12 @@ fun MyTextField(labelValue: String, painterResource: Painter) {
         ),
 
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        singleLine=true,
-        maxLines=1,
+        singleLine = true,
+        maxLines = 1,
         value = textValue.value,
         onValueChange = {
             textValue.value = it
+            onTextSelected(it)
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -130,7 +131,11 @@ fun MyTextField(labelValue: String, painterResource: Painter) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(labelValue: String, painterResource: Painter) {
+fun PasswordTextField(
+    labelValue: String,
+    painterResource: Painter,
+    onTextSelected: (String) -> Unit
+) {
 
     val password = remember {
         mutableStateOf("")
@@ -152,12 +157,16 @@ fun PasswordTextField(labelValue: String, painterResource: Painter) {
             cursorColor = primary,
             containerColor = Color.White, textColor = Color.Black
         ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
-        singleLine=true,
-        maxLines=1,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+            imeAction = ImeAction.Done
+        ),
+        singleLine = true,
+        maxLines = 1,
         value = password.value,
         onValueChange = {
             password.value = it
+            onTextSelected(it)
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -237,14 +246,15 @@ fun ClickableTextComponent(value: String, navController: NavController) {
 }
 
 @Composable
-fun ButtonComponent(value: String) {
+fun ButtonComponent(value: String, isEnable: Boolean = false) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
         onClick = { /*TODO*/ },
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(primary)
+        colors = ButtonDefaults.buttonColors(primary),
+        enabled = isEnable
     ) {
         Box(
             modifier = Modifier
@@ -270,7 +280,7 @@ fun DividerTextComponent() {
                 .fillMaxWidth()
                 .weight(1f), color = gray, thickness = 1.dp
         )
-        Text(modifier = Modifier.padding(8.dp),text = "or", fontSize = 14.sp, color = Color.Black)
+        Text(modifier = Modifier.padding(8.dp), text = "or", fontSize = 14.sp, color = Color.Black)
         Divider(
             Modifier
                 .fillMaxWidth()
@@ -289,7 +299,7 @@ fun SignUpScreenPreview() {
 }
 
 @Composable
-fun ClickableLoginTextComponent(navController:NavController) {
+fun ClickableLoginTextComponent(navController: NavController) {
     val initialText = "Already have an account? "
     val loginText = "Login"
 
@@ -312,13 +322,13 @@ fun ClickableLoginTextComponent(navController:NavController) {
         ),
         text = annotatedString, onClick = { offset ->
 
-        annotatedString.getStringAnnotations(offset, offset).firstOrNull()?.also { span ->
-            Log.d("ClickableTextComponent", "{$span}")
-            if ((span.item == loginText)) {
-                navController.navigate(route = Screen.LoginScreen.route)
+            annotatedString.getStringAnnotations(offset, offset).firstOrNull()?.also { span ->
+                Log.d("ClickableTextComponent", "{$span}")
+                if ((span.item == loginText)) {
+                    navController.navigate(route = Screen.LoginScreen.route)
+                }
             }
-        }
-    })
+        })
 }
 
 @Composable

@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 
@@ -86,6 +87,13 @@ dependencies {
 
     //material extended
     implementation("androidx.compose.material:material-icons-extended:1.6.3")
+
+    //firebase
+    implementation("com.google.firebase:firebase-bom:32.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+
+    //viewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
     implementation("androidx.compose.material3:material3")
     testImplementation("junit:junit:4.13.2")
