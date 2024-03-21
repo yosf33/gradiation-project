@@ -246,15 +246,17 @@ fun ClickableTextComponent(value: String, navController: NavController) {
 }
 
 @Composable
-fun ButtonComponent(value: String, isEnable: Boolean = false) {
+fun ButtonComponent(value: String,onButtonClicked:()->Unit) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
-        onClick = { /*TODO*/ },
+        onClick = {
+                  onButtonClicked.invoke()
+                  },
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(primary),
-        enabled = isEnable
+//        enabled = isEnable
     ) {
         Box(
             modifier = Modifier

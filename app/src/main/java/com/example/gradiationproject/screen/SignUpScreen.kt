@@ -96,7 +96,9 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         navController
                     )
                     Spacer(Modifier.height(40.dp))
-                    ButtonComponent(stringResource(id = R.string.register))
+                    ButtonComponent(stringResource(id = R.string.register), {
+                        loginViewModel.onEvent(UIEvent.RegisterButtonClicked)
+                    })
                     DividerTextComponent()
                     Spacer(Modifier.height(8.dp))
                     ClickableLoginTextComponent(navController)

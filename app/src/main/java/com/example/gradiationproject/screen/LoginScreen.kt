@@ -68,7 +68,8 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                     Spacer(Modifier.height(20.dp))
                     UnderLinedTextComponents(stringResource(id = R.string.forget_password))
                     Spacer(Modifier.height(40.dp))
-                    ButtonComponent(stringResource(id = R.string.login))
+                    ButtonComponent(stringResource(id = R.string.login), {
+                    })
                     Spacer(Modifier.height(20.dp))
                     DividerTextComponent()
 
