@@ -95,7 +95,7 @@ fun HeadingTextComponents(value: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextField(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit) {
+fun MyTextField(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit,errorStatus:Boolean=false) {
 
     val textValue = remember {
         mutableStateOf("")
@@ -124,7 +124,8 @@ fun MyTextField(labelValue: String, painterResource: Painter, onTextSelected: (S
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
-        }
+        },
+        isError = !errorStatus
     )
 
 }
@@ -134,7 +135,7 @@ fun MyTextField(labelValue: String, painterResource: Painter, onTextSelected: (S
 fun PasswordTextField(
     labelValue: String,
     painterResource: Painter,
-    onTextSelected: (String) -> Unit
+    onTextSelected: (String) -> Unit,errorStatus:Boolean=false
 ) {
 
     val password = remember {
@@ -171,6 +172,7 @@ fun PasswordTextField(
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
         },
+        isError = !errorStatus,
         trailingIcon = {
             val iconImage = if (passwordVisible.value) {
                 Icons.Filled.Visibility

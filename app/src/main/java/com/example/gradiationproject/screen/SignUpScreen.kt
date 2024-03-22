@@ -63,7 +63,7 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         onTextSelected = {
 
                             loginViewModel.onEvent(UIEvent.FirstNameChanged(it))
-                        })
+                        },errorStatus = loginViewModel.registrationUiState.value.firstNameError)
                     Spacer(Modifier.height(8.dp))
                     MyTextField(
                         labelValue = stringResource(id = R.string.last_name),
@@ -71,7 +71,7 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         onTextSelected = {
 
                             loginViewModel.onEvent(UIEvent.LastNameChanged(it))
-                        })
+                        },errorStatus = loginViewModel.registrationUiState.value.lastNameError)
                     Spacer(Modifier.height(8.dp))
                     MyTextField(
                         labelValue = stringResource(id = R.string.email),
@@ -79,7 +79,7 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         onTextSelected = {
 
                             loginViewModel.onEvent(UIEvent.EmailChanged(it))
-                        })
+                        },errorStatus = loginViewModel.registrationUiState.value.emailError)
                     Spacer(Modifier.height(8.dp))
                     PasswordTextField(
                         labelValue = stringResource(id = R.string.password),
@@ -87,7 +87,7 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         onTextSelected = {
 
                             loginViewModel.onEvent(UIEvent.PasswordChanged(it))
-                        })
+                        },errorStatus = loginViewModel.registrationUiState.value.passwordError)
 
 
                     Spacer(Modifier.height(8.dp))
