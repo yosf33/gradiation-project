@@ -13,16 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 
-//@Preview(showBackground = true)
-//@Composable
-//fun HomeScreen() {
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ){
-//        Text(text = "Home",
-//            fontSize = MaterialTheme.typography.headlineLarge.fontSize)
-//    }
-//
-//
-//}
+@Composable
+fun HomeScreen() {
+
+
+}

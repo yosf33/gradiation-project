@@ -12,17 +12,13 @@ sealed class Screen(val route: String){
     object SignUpScreen:Screen(route = "signUp_screen")
     object TermsAndConditionsScreen:Screen(route = "terms_and_conditions_screen")
     object LoginScreen:Screen(route = "logIn_screen")
+    object HomeScreen:Screen(route = "home_screen")
+
+
 
 
 }
 
-//object FreelancingAppRouter {
-//
-//    val currentScreen:MutableState<Screen> = mutableStateOf(Screen.SignUpScreen)
-//
-//    fun navigateTo(destination: Screen) {
-//        currentScreen.value=destination
-//    }
-//}
+
 
 

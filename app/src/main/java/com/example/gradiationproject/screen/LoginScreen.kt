@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.gradiationproject.LoginViewModel
 import com.example.gradiationproject.R
 import com.example.gradiationproject.components.ButtonComponent
 import com.example.gradiationproject.components.DividerTextComponent
@@ -23,8 +24,9 @@ import com.example.gradiationproject.components.MyTextField
 import com.example.gradiationproject.components.NormalTextComponents
 import com.example.gradiationproject.components.PasswordTextField
 import com.example.gradiationproject.components.UnderLinedTextComponents
-import com.example.gradiationproject.data.LoginViewModel
-import com.example.gradiationproject.data.UIEvent
+import com.example.gradiationproject.data.LoginUIEvent
+import com.example.gradiationproject.data.SignUpViewModel
+import com.example.gradiationproject.data.SignUpUIEvent
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
@@ -54,14 +56,14 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                         painterResource(id = R.drawable.email),
                         onTextSelected = {
 
-                            loginViewModel.onEvent(UIEvent.EmailChanged(it))
+                            loginViewModel.onEvent(LoginUIEvent.EmailChanged(it))
                         })
                     Spacer(Modifier.height(8.dp))
                     PasswordTextField(labelValue = stringResource(id = R.string.password),
                         painterResource(id = R.drawable.password),
                         onTextSelected = {
 
-                            loginViewModel.onEvent(UIEvent.PasswordChanged(it))
+                            loginViewModel.onEvent(LoginUIEvent.PasswordChanged(it))
                         })
 
 
@@ -69,7 +71,9 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
                     UnderLinedTextComponents(stringResource(id = R.string.forget_password))
                     Spacer(Modifier.height(40.dp))
                     ButtonComponent(stringResource(id = R.string.login), {
-                    })
+                        loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
+                    },
+                        isEnabled = loginViewModel.allValidationsPassed.value)
                     Spacer(Modifier.height(20.dp))
                     DividerTextComponent()
 

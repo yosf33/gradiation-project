@@ -6,45 +6,45 @@ import androidx.lifecycle.ViewModel
 import com.example.gradiationproject.data.rules.Validator
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginViewModel : ViewModel() {
+class SignUpViewModel : ViewModel() {
     var registrationUiState = mutableStateOf(RegistrationUiState())
 
     var allValidationsPassed = mutableStateOf(false)
 
-    private val TAG = LoginViewModel::class.simpleName
+    private val TAG = SignUpViewModel::class.simpleName
 
-    fun onEvent(event: UIEvent) {
+    fun onEvent(event: SignUpUIEvent) {
         validateDataWithRules()
         when (event) {
-            is UIEvent.FirstNameChanged -> {
+            is SignUpUIEvent.FirstNameChanged -> {
                 registrationUiState.value = registrationUiState.value.copy(
                     firstName = event.firstName
                 )
                 printState()
             }
 
-            is UIEvent.LastNameChanged -> {
+            is SignUpUIEvent.LastNameChanged -> {
                 registrationUiState.value = registrationUiState.value.copy(
                     lastName = event.lastName
                 )
                 printState()
             }
 
-            is UIEvent.EmailChanged -> {
+            is SignUpUIEvent.EmailChanged -> {
                 registrationUiState.value = registrationUiState.value.copy(
                     email = event.email
                 )
                 printState()
             }
 
-            is UIEvent.PasswordChanged -> {
+            is SignUpUIEvent.PasswordChanged -> {
                 registrationUiState.value = registrationUiState.value.copy(
                     password = event.password
                 )
                 printState()
             }
 
-            is UIEvent.RegisterButtonClicked -> {
+            is SignUpUIEvent.RegisterButtonClicked -> {
                 signUp()
             }
 

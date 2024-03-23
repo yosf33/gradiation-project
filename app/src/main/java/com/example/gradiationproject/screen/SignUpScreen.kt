@@ -26,11 +26,11 @@ import com.example.gradiationproject.components.HeadingTextComponents
 import com.example.gradiationproject.components.MyTextField
 import com.example.gradiationproject.components.NormalTextComponents
 import com.example.gradiationproject.components.PasswordTextField
-import com.example.gradiationproject.data.LoginViewModel
-import com.example.gradiationproject.data.UIEvent
+import com.example.gradiationproject.data.SignUpViewModel
+import com.example.gradiationproject.data.SignUpUIEvent
 
 @Composable
-fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
+fun SignUpScreen(navController: NavController, signUpViewModel: SignUpViewModel = viewModel()) {
     val secondaryColor = colorResource(id = R.color.medium_purple)
 
     Surface(
@@ -62,8 +62,8 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         painterResource(id = R.drawable.person),
                         onTextSelected = {
 
-                            loginViewModel.onEvent(UIEvent.FirstNameChanged(it))
-                        }, errorStatus = loginViewModel.registrationUiState.value.firstNameError
+                            signUpViewModel.onEvent(SignUpUIEvent.FirstNameChanged(it))
+                        }, errorStatus = signUpViewModel.registrationUiState.value.firstNameError
                     )
                     Spacer(Modifier.height(8.dp))
                     MyTextField(
@@ -71,8 +71,8 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         painterResource(id = R.drawable.person),
                         onTextSelected = {
 
-                            loginViewModel.onEvent(UIEvent.LastNameChanged(it))
-                        }, errorStatus = loginViewModel.registrationUiState.value.lastNameError
+                            signUpViewModel.onEvent(SignUpUIEvent.LastNameChanged(it))
+                        }, errorStatus = signUpViewModel.registrationUiState.value.lastNameError
                     )
                     Spacer(Modifier.height(8.dp))
                     MyTextField(
@@ -80,8 +80,8 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         painterResource(id = R.drawable.email),
                         onTextSelected = {
 
-                            loginViewModel.onEvent(UIEvent.EmailChanged(it))
-                        }, errorStatus = loginViewModel.registrationUiState.value.emailError
+                            signUpViewModel.onEvent(SignUpUIEvent.EmailChanged(it))
+                        }, errorStatus = signUpViewModel.registrationUiState.value.emailError
                     )
                     Spacer(Modifier.height(8.dp))
                     PasswordTextField(
@@ -89,8 +89,8 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                         painterResource(id = R.drawable.password),
                         onTextSelected = {
 
-                            loginViewModel.onEvent(UIEvent.PasswordChanged(it))
-                        }, errorStatus = loginViewModel.registrationUiState.value.passwordError
+                            signUpViewModel.onEvent(SignUpUIEvent.PasswordChanged(it))
+                        }, errorStatus = signUpViewModel.registrationUiState.value.passwordError
                     )
 
 
@@ -101,8 +101,8 @@ fun SignUpScreen(navController: NavController, loginViewModel: LoginViewModel = 
                     )
                     Spacer(Modifier.height(40.dp))
                     ButtonComponent(stringResource(id = R.string.register), {
-                        loginViewModel.onEvent(UIEvent.RegisterButtonClicked)
-                    },isEnabled = loginViewModel.allValidationsPassed.value)
+                        signUpViewModel.onEvent(SignUpUIEvent.RegisterButtonClicked)
+                    },isEnabled = signUpViewModel.allValidationsPassed.value)
                     DividerTextComponent()
                     Spacer(Modifier.height(8.dp))
                     ClickableLoginTextComponent(navController)
