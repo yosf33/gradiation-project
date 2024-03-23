@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen().setKeepOnScreenCondition{
             !splashViewModel.isLoading.value
+
         }
         setContent {
             GradiationProjectTheme {
@@ -48,6 +49,7 @@ class MainActivity : ComponentActivity() {
 
             }
         }
+
     }
 
 }
