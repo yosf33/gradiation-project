@@ -111,7 +111,7 @@ fun MyTextField(labelValue: String, painterResource: Painter, onTextSelected: (S
             focusedBorderColor = Color.White,
             focusedLabelColor = Color.White,
             cursorColor = primary,
-            containerColor = Color.White, textColor = Color.Black
+            containerColor = Color.White
         ),
 
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -156,7 +156,7 @@ fun PasswordTextField(
             focusedBorderColor = Color.White,
             focusedLabelColor = Color.White,
             cursorColor = primary,
-            containerColor = Color.White, textColor = Color.Black
+            containerColor = Color.White,
         ),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,

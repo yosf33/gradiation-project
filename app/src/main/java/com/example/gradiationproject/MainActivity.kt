@@ -22,6 +22,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.findNavController
 import com.example.gradiationproject.navigation.SetupNavGraph
+import com.example.gradiationproject.screen.bottomNavigationScreens.MainScreen
 import com.example.gradiationproject.ui.theme.GradiationProjectTheme
 import com.example.gradiationproject.viewmodel.SplashViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
                 val screen by splashViewModel.startDestination
                 val navController= rememberNavController()
                 SetupNavGraph(navController=navController, startDestination = screen)
+                MainScreen()
 
             }
         }

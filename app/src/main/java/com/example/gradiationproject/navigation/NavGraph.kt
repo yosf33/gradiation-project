@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.gradiationproject.screen.HomeScreen
+import com.example.gradiationproject.screen.bottomNavigationScreens.HomeScreen
 import com.example.gradiationproject.screen.LoginScreen
 import com.example.gradiationproject.screen.SignUpScreen
 import com.example.gradiationproject.screen.TermsAndConditionsScreen
