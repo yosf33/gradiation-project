@@ -10,6 +10,7 @@ import com.example.gradiationproject.screen.LoginScreen
 import com.example.gradiationproject.screen.SignUpScreen
 import com.example.gradiationproject.screen.TermsAndConditionsScreen
 import com.example.gradiationproject.screen.WelcomeScreen
+import com.example.gradiationproject.viewmodel.HomeScreenViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @ExperimentalAnimationApi
@@ -38,7 +39,7 @@ fun SetupNavGraph(
            }
 
            composable(route =Screen.HomeScreen.route) {
-               HomeScreen()
+               HomeScreen(viewModel = HomeScreenViewModel())
            }
 
 

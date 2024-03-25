@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.gradiationproject.R
 
-
 @Composable
 fun ProfileScreen() {
     Column(

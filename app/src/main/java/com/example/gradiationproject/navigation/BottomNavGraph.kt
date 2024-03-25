@@ -10,17 +10,19 @@ import com.example.gradiationproject.screen.bottomNavigationScreens.ChatListScre
 import com.example.gradiationproject.screen.bottomNavigationScreens.HomeScreen
 import com.example.gradiationproject.screen.bottomNavigationScreens.ProfileScreen
 import com.example.gradiationproject.screen.bottomNavigationScreens.SettingsScreen
+import com.example.gradiationproject.viewmodel.AddPostViewModel
+import com.example.gradiationproject.viewmodel.HomeScreenViewModel
 
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = BottomBarScreen.Home.route) {
 
         composable(route = BottomBarScreen.Home.route) {
-            HomeScreen()
+            HomeScreen(viewModel =  HomeScreenViewModel())
         }
 
         composable(route = BottomBarScreen.AddPost.route) {
-            AddPostScreen()
+            AddPostScreen(viewModel = AddPostViewModel())
         }
 
         composable(route = BottomBarScreen.Chat.route) {
