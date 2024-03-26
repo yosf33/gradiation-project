@@ -13,12 +13,13 @@ class AddPostViewModel: ViewModel() {
 
 
 
-     fun addPostToFirestore() {
-        val post = Post(
-            "youssef",
-            "25/3/2024",
-            "need help in facebook"
-        )
+     fun addPostToFirestore(title: String, price: String, description: String, numberOfParts: Int) {
+         val post = Post(
+             title = title,
+             price = price,
+             description= description,
+             numberOfParts=numberOfParts
+             )
         db.collection("posts")
             .add(post)
             .addOnSuccessListener {
