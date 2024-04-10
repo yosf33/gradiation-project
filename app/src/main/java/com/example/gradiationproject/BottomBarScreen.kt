@@ -17,29 +17,29 @@ sealed class BottomBarScreen(
 
 object Home:BottomBarScreen(
     route = "home",
-    title = "Home",
+    title = "",
     icon = Icons.Default.Home
 )
 
 object AddPost:BottomBarScreen(
     route = "addPost",
-    title = "AddPost",
+    title = "",
     icon = Icons.Default.Add
 )
 
 object Chat:BottomBarScreen(
     route = "chat",
-    title = "Chat",
+    title = "",
     icon = Icons.Default.ChatBubble
 )
 object Profile:BottomBarScreen(
     route = "profile",
-    title = "Profile",
+    title = "",
     icon = Icons.Default.Person
 )
 object Settings:BottomBarScreen(
     route = "settings",
-    title = "Settings",
+    title = "",
     icon = Icons.Default.Settings
 )
 

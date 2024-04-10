@@ -34,7 +34,7 @@ fun ChatListScreen() {
 
     val user = User(
         id = "tutorial-droid",
-        name = "Tutorial Droid",
+        name = "Youssef Soliman",
         image = "https://bit.ly/2TIt8NR"
     )
     client.connectUser(
