@@ -96,12 +96,9 @@ fun HeadingTextComponents(value: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTextField(labelValue: String, painterResource: Painter, onTextSelected: (String) -> Unit,errorStatus:Boolean=false) {
-
     val textValue = remember {
         mutableStateOf("")
     }
-
-
     TextField(
         modifier = Modifier
             .fillMaxWidth()

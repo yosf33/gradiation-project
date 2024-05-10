@@ -2,7 +2,6 @@
 
 package com.example.gradiationproject.screen.bottomNavigationScreens
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,14 +20,14 @@ import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,7 +58,7 @@ fun AddPostScreen(viewModel: AddPostViewModel) {
 }
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheetDemo(viewModel: AddPostViewModel) {
 
@@ -80,10 +79,13 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
         sheetShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
         sheetContent = {
             //Ui for bottom sheet
+
             Column(
                 content = {
+                    // TODO: modify the ui of bottom sheet
 
-                    Spacer(modifier = Modifier.padding(32.dp))
+
+                    //region bottomSheetTitle
                     Text(
                         text = "Add Post",
                         modifier = Modifier
@@ -93,55 +95,74 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
                         fontSize = 21.sp,
                         color = Color.White
                     )
+                    //endregion
+
                     Column {
                         Spacer(modifier = Modifier.height(16.dp))
-                        TextField1(
+
+                        //region title TextField
+                        TextField(
                             value = title,
                             onValueChange = { title = it },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 8.dp),
                             textStyle = TextStyle(
-                                color = Color.White,
+                                color = Color.Black,
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
-                            ),
+                            ), label = { Text(text = "Title") },
                             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                             readOnly = false // Make it editable
                         )
-
-                        TextField1(
+                        //endregion
+                        Spacer(modifier = Modifier.height(8.dp))
+                        //region Price TextField
+                        TextField(
                             value = price,
                             onValueChange = { price = it },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 8.dp),
-                            textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+                            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+                            label = { Text(text = "Price") },
                             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                             readOnly = false // Make it editable
                         )
-
-                        TextField1(
+                        //endregion
+                        Spacer(modifier = Modifier.height(8.dp))
+                        //region description TextField
+                        TextField(
                             value = description,
                             onValueChange = { description = it },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 8.dp),
-                            textStyle = TextStyle(color = Color.White, fontSize = 14.sp),
+                            textStyle = TextStyle(color = Color.Black, fontSize = 14.sp),
+                            minLines = 5,
+                            label = { Text(text = "Description") },
                             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
                             readOnly = false // Make it editable
                         )
-
+                        //endregion
+                        Spacer(modifier = Modifier.height(8.dp))
+                        //region number of parts TextField
                         NumberTextField(
                             initialValue = numberOfParts,
                             onValueChange = { numberOfParts = it }
                         )
-                        Spacer(modifier = Modifier.padding(16.dp))
-
+                        //endregion
+                        Spacer(modifier = Modifier .fillMaxHeight(0.7f))
+                        //region Add post Button
                         Button(
                             onClick = {
 
-                                viewModel.addPostToFirestore(title, price, description, numberOfParts)
+                                viewModel.addPostToFirestore(
+                                    title,
+                                    price,
+                                    description,
+                                    numberOfParts
+                                )
                                 coroutineScope.launch {
                                     bottomSheetScaffoldState.bottomSheetState.collapse()
                                     snackbarHostState.showSnackbar("Post Saved")
@@ -151,13 +172,14 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
                                 price = ""
                                 description = ""
                                 numberOfParts = 0
-                             },
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
                         ) {
-                            Text("Add Post to Firestore")
+                            Text("Publish")
                         }
+                        //endregion
 
 
                     }
@@ -222,10 +244,10 @@ fun NumberTextField(
     var textFieldValue by remember { mutableStateOf(TextFieldValue(initialValue.toString())) }
 
     // Limiting the input to numbers only
-    TextField1(
+    TextField(
         modifier = Modifier
             .fillMaxWidth(),
-        value = textFieldValue,
+        value = textFieldValue,label = { Text(text = "Number of parts") },
         onValueChange = { value ->
             if (value.text.matches(Regex("[0-9]*"))) {
                 textFieldValue = value
