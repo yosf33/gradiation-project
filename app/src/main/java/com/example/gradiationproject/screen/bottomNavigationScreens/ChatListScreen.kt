@@ -1,11 +1,13 @@
 package com.example.gradiationproject.screen.bottomNavigationScreens
 
+import android.content.Intent
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat.startActivity
 import com.example.gradiationproject.MyApplication.Companion.appContext
 import com.example.gradiationproject.R
 import io.getstream.chat.android.client.ChatClient
@@ -51,7 +53,7 @@ fun ChatListScreen() {
                     title = stringResource(id = R.string.app_name),
                     isShowingSearch = true,
                     onItemClick = { channel ->
-                        TODO()
+                       // startActivity(ChannelActivity.getIntent(this, channel.cid))
                     },
                     onBackPressed = {  }
                 )
@@ -68,6 +70,7 @@ fun ChatListScreen() {
 
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
