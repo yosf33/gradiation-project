@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
@@ -265,6 +267,31 @@ fun ButtonComponent(value: String,onButtonClicked:()->Unit,isEnabled:Boolean=fal
             contentAlignment = Alignment.Center
         ) {
             Text(text = value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
+        }
+    }
+}
+
+@Composable
+fun ButtonComponent1(value: String,onButtonClicked:()->Unit,isEnabled:Boolean=false) {
+    Button(
+        modifier = Modifier
+            .widthIn(35.dp)
+            .heightIn(24.dp),
+        onClick = {
+            onButtonClicked.invoke()
+        },
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(primary),
+        enabled = isEnabled
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(24.dp)
+                .background(color = primary, shape = RoundedCornerShape(50.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = value, fontSize = 18.sp, color = Color.White)
         }
     }
 }

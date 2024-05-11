@@ -1,5 +1,7 @@
 package com.example.gradiationproject.screen.bottomNavigationScreens
 
+import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -22,27 +25,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.gradiationproject.MyApplication.Companion.appContext
+import com.example.gradiationproject.components.ButtonComponent
+import com.example.gradiationproject.components.ButtonComponent1
 import com.example.gradiationproject.data.Post
 import com.example.gradiationproject.viewmodel.HomeScreenViewModel
 
 @Composable
 fun HomeScreen(viewModel: HomeScreenViewModel) {
-    val posts by viewModel.posts.collectAsState()
+    val posts by viewModel.posts.collectAsState(initial = emptyList())
+
+    LaunchedEffect(Unit) {
+        viewModel.retrievePostToFirestore()
+    }
 
     Surface {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = { viewModel.retrievePostToFirestore() }) {
-                Text("Retrieve Posts from Firestore")
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
             LazyColumn {
                 items(posts) { post ->
                     PostCard(post = post)
@@ -71,22 +75,12 @@ fun PostCard(post: Post) {
             Text(text = "Description: ${post.description}")
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "Number of Parts: ${post.numberOfParts}")
+
+            ButtonComponent1("Apply Now",{val toast = Toast.makeText(appContext, "You have applied", Toast.LENGTH_SHORT)
+                toast.show()},true)
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PostCardPreview() {
-//    val post = Post(
-//        title = "Sample Title",
-//        price = "$10",
-//        description = "Sample Description",
-//        numberOfParts = 5
-//    )
-//
-//    PostCard(post = post)
-//}
 
 @Preview
 @Composable

@@ -3,6 +3,7 @@ package com.example.gradiationproject.navigation
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.ActivityNavigator
+import com.example.gradiationproject.data.Post
 
 sealed class Screen(val route: String){
     object Welcome:Screen(route = "welcome_screen")
@@ -13,8 +14,6 @@ sealed class Screen(val route: String){
     object TermsAndConditionsScreen:Screen(route = "terms_and_conditions_screen")
     object LoginScreen:Screen(route = "logIn_screen")
     object HomeScreen:Screen(route = "home_screen")
-
-
 
 
 }
