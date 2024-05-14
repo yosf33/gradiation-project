@@ -26,7 +26,7 @@ import com.example.gradiationproject.BottomBarScreen
 import com.example.gradiationproject.navigation.BottomNavGraph
 import com.example.gradiationproject.ui.theme.secondary
 
-@Preview
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
@@ -92,4 +92,11 @@ fun RowScope.AddItem(
         }
     )
 
+}
+
+@Preview
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun MainScreenPreview() {
+    MainScreen()
 }

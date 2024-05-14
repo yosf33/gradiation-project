@@ -152,7 +152,7 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
                             onValueChange = { numberOfParts = it }
                         )
                         //endregion
-                        Spacer(modifier = Modifier .fillMaxHeight(0.7f))
+                        Spacer(modifier = Modifier .fillMaxHeight(0.3f))
                         //region Add post Button
                         Button(
                             onClick = {

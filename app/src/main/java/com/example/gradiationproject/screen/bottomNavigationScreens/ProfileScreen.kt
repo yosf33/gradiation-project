@@ -52,7 +52,7 @@ fun ProfileScreen() {
 
         }
         Text(
-            text = "Lion Fisher",
+            text = "Youssef Soliman",
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 16.dp),
@@ -60,7 +60,7 @@ fun ProfileScreen() {
         )
 
         Text(
-            text = "lionfisher@gmail.com",
+            text = "youssif.soliman@gmail.com",
             fontSize = 20.sp,
             color = Color(android.graphics.Color.parseColor("#747679"))
         )
