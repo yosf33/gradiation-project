@@ -18,29 +18,24 @@ import java.io.IOException
 
 class PdfViewModel : ViewModel() {
 
-    private val okHttpClient = OkHttpClient()
+    private val apiService = RetrofitInstance.api
 
-    private fun downloadFile(context: Context, url: String, fileName: String) {
+    private fun downloadFile(context: Context, fileName: String, saveAs: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val request = Request.Builder().url(url).build()
-            try {
-                val response = okHttpClient.newCall(request).execute()
-                if (response.isSuccessful) {
-                    val inputStream = response.body?.byteStream()
-                    val file = File(context.cacheDir, fileName)
-                    val outputStream = FileOutputStream(file)
-                    inputStream?.use { input ->
-                        outputStream.use { output ->
-                            input.copyTo(output)
-                        }
+            val response = apiService.downloadFile(fileName).execute()
+            if (response.isSuccessful) {
+                val inputStream = response.body()?.byteStream()
+                val file = File(context.cacheDir, saveAs)
+                val outputStream = FileOutputStream(file)
+                inputStream?.use { input ->
+                    outputStream.use { output ->
+                        input.copyTo(output)
                     }
-                    Log.d("PdfViewModel", "Downloaded file: ${file.absolutePath}")
-                    // Handle the downloaded file (e.g., open it, display it, etc.)
-                } else {
-                    Log.e("PdfViewModel", "Failed to download file: ${response.message}")
                 }
-            } catch (e: IOException) {
-                Log.e("PdfViewModel", "Exception during file download: $e")
+                Log.d("PdfViewModel", "Downloaded file: ${file.name}")
+                // Handle the downloaded file (e.g., open it, display it, etc.)
+            } else {
+                Log.e("PdfViewModel", "Failed to download file: ${response.message()}")
             }
         }
     }
@@ -70,7 +65,7 @@ class PdfViewModel : ViewModel() {
                     Log.d("PdfViewModel", "PDF split successful: $result")
                     result?.files?.forEachIndexed { index, fileUrl ->
                         Log.d("PdfViewModel", "Downloading PDF part: $fileUrl")
-                        downloadFile(context, fileUrl, "part_${index + 1}.pdf")
+                        downloadFile(context, "part_${index + 1}.pdf", "part_${index + 1}.pdf")
 
                     }
                 } else {
