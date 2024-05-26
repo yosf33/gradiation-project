@@ -83,6 +83,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.49")
     implementation("com.google.firebase:firebase-firestore:24.11.0")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     kapt("com.google.dagger:hilt-android-compiler:2.49")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
