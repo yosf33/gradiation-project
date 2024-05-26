@@ -2,15 +2,23 @@
 
 package com.example.gradiationproject.screen.bottomNavigationScreens
 
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomSheetScaffold
@@ -20,15 +28,19 @@ import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -45,29 +58,41 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gradiationproject.ui.theme.mediuem
 import com.example.gradiationproject.ui.theme.secondary
 import com.example.gradiationproject.viewmodel.AddPostViewModel
+import com.example.gradiationproject.viewmodel.PdfViewModel
 import kotlinx.coroutines.launch
-import androidx.compose.material.TextField as TextField1
+import java.io.File
 
 @Composable
-fun AddPostScreen(viewModel: AddPostViewModel) {
-    BottomSheetDemo(viewModel)
-
+fun AddPostScreen(viewModel: AddPostViewModel,pdfViewModel: PdfViewModel = viewModel()) {
+        BottomSheetDemo(viewModel)
 }
 
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheetDemo(viewModel: AddPostViewModel) {
+fun BottomSheetDemo(viewModel: AddPostViewModel, pdfViewModel: PdfViewModel = viewModel()) {
+    val pdfFiles: List<File> by pdfViewModel.pdfFiles.collectAsState(emptyList())
 
     var title by remember { mutableStateOf("") }
     var price by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var numberOfParts by remember { mutableStateOf(0) }
+    var numberOfParts by remember { mutableStateOf(5) }
 
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri?.let {
+            Log.d("PdfScreen", "PDF selected: $uri")
+            pdfViewModel.splitPdf(context, it, numberOfParts.toString())
+        }
+    }
+
+
 
 //Lets define bottomSheetScaffoldState which will hold the state of Scaffold
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -82,7 +107,7 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
 
             Column(
                 content = {
-                    // TODO: modify the ui of bottom sheet
+
 
 
                     //region bottomSheetTitle
@@ -153,6 +178,11 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
                         )
                         //endregion
                         Spacer(modifier = Modifier .fillMaxHeight(0.3f))
+
+                        Button(onClick = { launcher.launch(arrayOf("application/pdf")) }) {
+                            Text(text = "Choose PDF")
+                        }
+
                         //region Add post Button
                         Button(
                             onClick = {
@@ -199,12 +229,46 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
 
         ) {
 
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                Log.i("testo", "number of parts is: "+numberOfParts.toString())
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Log.d("PdfViewModel", "pdfFiles: "+pdfFiles)
+                    items(pdfFiles.sortedBy { it.name }) { file ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { pdfViewModel.openPdf(context, file) }
+                                .padding(8.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        ) {
+                            Text(
+                                text = file.name,
+                                modifier = Modifier.padding(16.dp),
+                                style = MaterialTheme.typography.body1
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
         //Add button to open bottom sheet
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(bottom = 48.dp, end = 16.dp), contentAlignment = Alignment.BottomEnd
         ) {
+
             FloatingActionButton(
                 modifier = Modifier
                     .padding(32.dp),
@@ -233,7 +297,7 @@ fun BottomSheetDemo(viewModel: AddPostViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun AddPostScreenPreview() {
-    AddPostScreen(viewModel = AddPostViewModel())
+    AddPostScreen(viewModel = AddPostViewModel(), pdfViewModel = PdfViewModel())
 }
 
 @Composable

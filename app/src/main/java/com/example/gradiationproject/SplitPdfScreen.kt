@@ -31,13 +31,13 @@ import com.example.gradiationproject.viewmodel.PdfViewModel
 import java.io.File
 
 @Composable
-fun PdfScreen(viewModel: PdfViewModel = viewModel()) {
+fun PdfScreen(pdfViewModel: PdfViewModel = viewModel()) {
     val context = LocalContext.current
-    val pdfFiles: List<File> by viewModel.pdfFiles.collectAsState(emptyList())
+    val pdfFiles: List<File> by pdfViewModel.pdfFiles.collectAsState(emptyList())
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         uri?.let {
             Log.d("PdfScreen", "PDF selected: $uri")
-            viewModel.splitPdf(context, it, "5")
+            pdfViewModel.splitPdf(context, it, "5")
         }
     }
 
@@ -63,7 +63,7 @@ fun PdfScreen(viewModel: PdfViewModel = viewModel()) {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { viewModel.openPdf(context, file) }
+                            .clickable { pdfViewModel.openPdf(context, file) }
                             .padding(8.dp),
                         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                     ) {
