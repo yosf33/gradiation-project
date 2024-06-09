@@ -46,7 +46,7 @@ fun BottomBar(navController: NavHostController) {
         BottomBarScreen.Chat,
         BottomBarScreen.AddPost,
         BottomBarScreen.Profile,
-        BottomBarScreen.Settings,
+        BottomBarScreen.AiModel,
 
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()

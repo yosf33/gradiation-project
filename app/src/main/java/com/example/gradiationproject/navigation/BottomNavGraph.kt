@@ -6,10 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.gradiationproject.BottomBarScreen
 import com.example.gradiationproject.screen.bottomNavigationScreens.AddPostScreen
+import com.example.gradiationproject.screen.bottomNavigationScreens.AiModelScreen
 import com.example.gradiationproject.screen.bottomNavigationScreens.ChatListScreen
 import com.example.gradiationproject.screen.bottomNavigationScreens.HomeScreen
 import com.example.gradiationproject.screen.bottomNavigationScreens.ProfileScreen
-import com.example.gradiationproject.screen.bottomNavigationScreens.SettingsScreen
 import com.example.gradiationproject.viewmodel.AddPostViewModel
 import com.example.gradiationproject.viewmodel.HomeScreenViewModel
 
@@ -29,8 +29,8 @@ fun BottomNavGraph(navController: NavHostController) {
             ChatListScreen()
         }
 
-        composable(route = BottomBarScreen.Settings.route) {
-            SettingsScreen()
+        composable(route = BottomBarScreen.AiModel.route) {
+            AiModelScreen()
         }
 
         composable(route = BottomBarScreen.Profile.route) {

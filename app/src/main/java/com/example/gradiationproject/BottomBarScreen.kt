@@ -1,12 +1,11 @@
 package com.example.gradiationproject
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Adb
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ChatBubble
-import androidx.compose.material.icons.filled.ChatBubbleOutline
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomBarScreen(
@@ -37,10 +36,10 @@ object Profile:BottomBarScreen(
     title = "",
     icon = Icons.Default.Person
 )
-object Settings:BottomBarScreen(
-    route = "settings",
+object AiModel:BottomBarScreen(
+    route = "ai",
     title = "",
-    icon = Icons.Default.Settings
+    icon = Icons.Default.Adb
 )
 
 }

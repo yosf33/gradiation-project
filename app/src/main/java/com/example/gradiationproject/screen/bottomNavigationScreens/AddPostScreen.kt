@@ -177,12 +177,12 @@ fun BottomSheetDemo(viewModel: AddPostViewModel, pdfViewModel: PdfViewModel = vi
                             onValueChange = { numberOfParts = it }
                         )
                         //endregion
-                        Spacer(modifier = Modifier .fillMaxHeight(0.3f))
+                        Spacer(modifier = Modifier .fillMaxHeight(0.1f))
 
                         Button(onClick = { launcher.launch(arrayOf("application/pdf")) }) {
                             Text(text = "Choose PDF")
                         }
-
+                        Spacer(modifier = Modifier .fillMaxHeight(0.3f))
                         //region Add post Button
                         Button(
                             onClick = {
