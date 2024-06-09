@@ -1,7 +1,6 @@
 package com.example.gradiationproject
 
 
-import android.content.Context
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -39,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gradiationproject.viewmodel.AiViewModel
-import java.io.File
 
 
 @Composable
@@ -93,33 +91,26 @@ fun MyApp(aiViewModel: AiViewModel = viewModel()) {
     val transcripts by aiViewModel.transcripts.collectAsState()
 
     summary?.let {
-        val file = createPdfFile(context, it)
+        val file = aiViewModel.createPdfFile(context, it)
         // Provide a method to download the file or open it directly
         Toast.makeText(context, "Summary PDF file downloaded", Toast.LENGTH_SHORT).show()
-        // aiViewModel.openPdf(context, file) // Uncomment to open the file
+         aiViewModel.openPdf(context, file) // Uncomment to open the file
     }
 
     if (transcripts.isNotEmpty()) {
-        val file = createPdfFile(context, transcripts.joinToString("\n"))
+        val file = aiViewModel.createPdfFile(context, transcripts.joinToString("\n"))
         // Provide a method to download the file or open it directly
         Toast.makeText(context, "Transcripts PDF file downloaded", Toast.LENGTH_SHORT).show()
-        // aiViewModel.openPdf(context, file) // Uncomment to open the file
+         aiViewModel.openPdf(context, file) // Uncomment to open the file
     }
 }
 
-fun createPdfFile(context: Context, text: String): File {
-    val file = File(context.getExternalFilesDir(null), "result.pdf")
-    // Write text to PDF file (left as an exercise for simplicity)
-    return file
-}
 
 @Preview(showBackground = true)
 @Composable
 fun MyAppPreview() {
     MyApp(aiViewModel = AiViewModel())
 }
-
-
 
 @Composable
 fun UploadButton(text: String, iconResId: Int, onClick: () -> Unit) {

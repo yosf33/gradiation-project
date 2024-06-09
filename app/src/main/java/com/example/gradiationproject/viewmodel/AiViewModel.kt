@@ -18,6 +18,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 
 class AiViewModel : ViewModel() {
 
@@ -50,6 +51,7 @@ class AiViewModel : ViewModel() {
                 val response = apiService.summarizePdf(multipartBody).execute()
                 if (response.isSuccessful) {
                     val result = response.body()
+                    // TODO: have problem not saving the pdf to the local  
                     Log.d("AiViewModel", "PDF summarization successful: $result")
                     _summary.value = result?.summary
                 } else {
@@ -82,6 +84,7 @@ class AiViewModel : ViewModel() {
                 val response = apiService.transcribeAudio(multipartBody).execute()
                 if (response.isSuccessful) {
                     val result = response.body()
+                    // TODO: why audio not be saved ? 
                     Log.d("AiViewModel", "Audio transcription successful: $result")
                     _transcripts.value = result?.transcripts ?: emptyList()
                 } else {
@@ -103,14 +106,29 @@ class AiViewModel : ViewModel() {
         context.startActivity(intent)
     }
 
-    fun openAudio(context: Context, file: File) {
-        Log.d("AiViewModel", "Audio package name: ${context.packageName}")
-        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, "audio/*")
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//    fun openAudio(context: Context, file: File) {
+//        Log.d("AiViewModel", "Audio package name: ${context.packageName}")
+//        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+//        val intent = Intent(Intent.ACTION_VIEW).apply {
+//            setDataAndType(uri, "audio/*")
+//            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        }
+//        context.startActivity(intent)
+//    }
+
+    fun createPdfFile(context: Context, text: String): File {
+        val file = File(context.getExternalFilesDir(null), "result.pdf")
+        try {
+            val outputStream = FileOutputStream(file)
+            outputStream.use {
+                it.write(text.toByteArray())
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-        context.startActivity(intent)
+        return file
     }
+
+
 }
 
