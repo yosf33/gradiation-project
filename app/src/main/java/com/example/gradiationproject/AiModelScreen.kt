@@ -23,7 +23,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -86,23 +85,6 @@ fun MyApp(aiViewModel: AiViewModel = viewModel()) {
         )
     }
 
-    // Observe ViewModel and handle file creation and downloading
-    val summary by aiViewModel.summary.collectAsState()
-    val transcripts by aiViewModel.transcripts.collectAsState()
-
-    summary?.let {
-        val file = aiViewModel.createPdfFile(context, it)
-        // Provide a method to download the file or open it directly
-        Toast.makeText(context, "Summary PDF file downloaded", Toast.LENGTH_SHORT).show()
-         aiViewModel.openPdf(context, file) // Uncomment to open the file
-    }
-
-    if (transcripts.isNotEmpty()) {
-        val file = aiViewModel.createPdfFile(context, transcripts.joinToString("\n"))
-        // Provide a method to download the file or open it directly
-        Toast.makeText(context, "Transcripts PDF file downloaded", Toast.LENGTH_SHORT).show()
-         aiViewModel.openPdf(context, file) // Uncomment to open the file
-    }
 }
 
 

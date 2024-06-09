@@ -2,8 +2,10 @@ package com.example.gradiationproject.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -54,6 +56,8 @@ class AiViewModel : ViewModel() {
                     // TODO: have problem not saving the pdf to the local  
                     Log.d("AiViewModel", "PDF summarization successful: $result")
                     _summary.value = result?.summary
+
+                    createPdf(context, result?.summary ?: "", "summary_result.pdf")
                 } else {
                     Log.e("AiViewModel", "PDF summarization failed: ${response.errorBody()?.string()}")
                 }
@@ -87,6 +91,9 @@ class AiViewModel : ViewModel() {
                     // TODO: why audio not be saved ? 
                     Log.d("AiViewModel", "Audio transcription successful: $result")
                     _transcripts.value = result?.transcripts ?: emptyList()
+
+                    createPdf(context, result?.transcripts?.joinToString("\n") ?: "", "transcription_result.pdf")
+
                 } else {
                     Log.e("AiViewModel", "Audio transcription failed: ${response.errorBody()?.string()}")
                 }
@@ -95,6 +102,23 @@ class AiViewModel : ViewModel() {
             }
         }
     }
+
+    private fun saveTextAsPdf(context: Context, text: String, fileName: String) {
+        val file = File(context.getExternalFilesDir(null), fileName)
+        try {
+            FileOutputStream(file).use { output ->
+                output.write(text.toByteArray())
+            }
+            // Notify the user
+            viewModelScope.launch(Dispatchers.Main) {
+                Toast.makeText(context, "File saved as $fileName", Toast.LENGTH_LONG).show()
+                openPdf(context, file)
+            }
+        } catch (e: IOException) {
+            Log.e("AiViewModel", "Error saving PDF file: $e")
+        }
+    }
+
 
     fun openPdf(context: Context, file: File) {
         Log.d("AiViewModel", "Pdf package name: ${context.packageName}")
@@ -116,19 +140,47 @@ class AiViewModel : ViewModel() {
 //        context.startActivity(intent)
 //    }
 
-    fun createPdfFile(context: Context, text: String): File {
-        val file = File(context.getExternalFilesDir(null), "result.pdf")
+    private fun createPdf(context: Context, text: String, fileName: String) {
+        val document = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create() // A4 size in points (72 points per inch)
+        val page = document.startPage(pageInfo)
+
+        val canvas = page.canvas
+        val paint = android.graphics.Paint()
+        paint.textSize = 12f
+        paint.isAntiAlias = true
+
+        val xPosition = 10f
+        var yPosition = 40f
+        val maxWidth = pageInfo.pageWidth - 20f // 10 points padding on each side
+
+        val lines = text.split("\n")
+        for (line in lines) {
+            var start = 0
+            while (start < line.length) {
+                val count = paint.breakText(line, start, line.length, true, maxWidth, null)
+                canvas.drawText(line.substring(start, start + count), xPosition, yPosition, paint)
+                yPosition += paint.descent() - paint.ascent()
+                start += count
+            }
+        }
+
+        document.finishPage(page)
+
+        val file = File(context.getExternalFilesDir(null), fileName)
         try {
-            val outputStream = FileOutputStream(file)
-            outputStream.use {
-                it.write(text.toByteArray())
+            document.writeTo(FileOutputStream(file))
+            document.close()
+            // Notify the user
+            viewModelScope.launch(Dispatchers.Main) {
+                Toast.makeText(context, "File saved as $fileName", Toast.LENGTH_LONG).show()
+                openPdf(context, file)
             }
         } catch (e: IOException) {
-            e.printStackTrace()
+            Log.e("AiViewModel", "Error saving PDF file: $e")
         }
-        return file
     }
 
-
 }
+
 
