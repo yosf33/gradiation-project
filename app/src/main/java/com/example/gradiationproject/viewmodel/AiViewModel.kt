@@ -12,8 +12,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.gradiationproject.network.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -27,10 +25,8 @@ class AiViewModel : ViewModel() {
     private val apiService = RetrofitInstance.api
 
     private val _summary = MutableStateFlow<String?>(null)
-    val summary: StateFlow<String?> = _summary.asStateFlow()
 
     private val _transcripts = MutableStateFlow<List<String>>(emptyList())
-    val transcripts: StateFlow<List<String>> = _transcripts.asStateFlow()
 
     fun summarizePdf(context: Context, fileUri: Uri) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -103,21 +99,6 @@ class AiViewModel : ViewModel() {
         }
     }
 
-    private fun saveTextAsPdf(context: Context, text: String, fileName: String) {
-        val file = File(context.getExternalFilesDir(null), fileName)
-        try {
-            FileOutputStream(file).use { output ->
-                output.write(text.toByteArray())
-            }
-            // Notify the user
-            viewModelScope.launch(Dispatchers.Main) {
-                Toast.makeText(context, "File saved as $fileName", Toast.LENGTH_LONG).show()
-                openPdf(context, file)
-            }
-        } catch (e: IOException) {
-            Log.e("AiViewModel", "Error saving PDF file: $e")
-        }
-    }
 
 
     fun openPdf(context: Context, file: File) {
@@ -130,15 +111,6 @@ class AiViewModel : ViewModel() {
         context.startActivity(intent)
     }
 
-//    fun openAudio(context: Context, file: File) {
-//        Log.d("AiViewModel", "Audio package name: ${context.packageName}")
-//        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
-//        val intent = Intent(Intent.ACTION_VIEW).apply {
-//            setDataAndType(uri, "audio/*")
-//            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//        }
-//        context.startActivity(intent)
-//    }
 
     private fun createPdf(context: Context, text: String, fileName: String) {
         val document = PdfDocument()
